@@ -47,7 +47,7 @@ export function Menu() {
         <SettingsIcon />
       </a>
       <a
-        href='www.globo.com'
+        href='#'
         aria-label='Mudar Tema'
         title='Mudar Tema'
         onClick={handleThemeChange}
