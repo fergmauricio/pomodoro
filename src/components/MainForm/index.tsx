@@ -50,8 +50,29 @@ export function MainForm() {
         tasks: [...prevState.tasks, newTask],
       };
     });
-    //console.log(taskName);
   }
+
+  function handleInterruptTask() {
+    setState(prevState => {
+      return {
+        ...prevState,
+        activeTask: null,
+        secondsRemaining: 0,
+        formattedSecondsRemaining: '00:00',
+        tasks: prevState.tasks.map(task => {
+          if (prevState.activeTask && prevState.activeTask.id === task.id) {
+            return {
+              ...task,
+              interruptDate: Date.now(),
+            };
+          } else {
+            return task;
+          }
+        }),
+      };
+    });
+  }
+
   return (
     <form className='form' action='' onSubmit={handleNewTask}>
       <div className='formRow'>
@@ -61,6 +82,7 @@ export function MainForm() {
           labelText='Qualquer Coisa'
           placeholder='Digite algo'
           ref={taskNameInput}
+          disabled={!!state.activeTask}
         />
       </div>
       <div className='formRow'>
@@ -72,8 +94,26 @@ export function MainForm() {
         </div>
       )}
       <div className='formRow'>
-        <DefaultButton icon={<PlayCircleIcon />} color='green' />
-        <DefaultButton icon={<StopCircleIcon />} color='red' />
+        {!state.activeTask ? (
+          <DefaultButton
+            aria-label='Iniciar nova tarefa'
+            title='Iniciar nova tarefa'
+            type='submit'
+            icon={<PlayCircleIcon />}
+            key='submit_01'
+            color='green'
+          />
+        ) : (
+          <DefaultButton
+            aria-label='Interromper tarefa atual'
+            title='Interromper tarefa atual'
+            type='button'
+            onClick={handleInterruptTask}
+            icon={<StopCircleIcon />}
+            key='button_02'
+            color='red'
+          />
+        )}
       </div>
     </form>
   );
