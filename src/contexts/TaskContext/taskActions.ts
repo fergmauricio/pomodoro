@@ -7,6 +7,7 @@ export enum TaskActionsTypes {
   RESET_STATE = 'RESET_STATE',
   COUNT_DOWN = 'COUNT_DOWN',
   COMPLETE_TASK = 'COMPLETE_TASK',
+  CHANGE_SETTINGS = 'CHANGE_SETTINGS',
 }
 
 export type TaskActionModel =
@@ -23,6 +24,10 @@ export type TaskActionModel =
   | {
       type: TaskActionsTypes.COUNT_DOWN;
       payload: { secondsRemaining: number };
+    }
+  | {
+      type: TaskActionsTypes.CHANGE_SETTINGS;
+      payload: TaskStateModel['config'];
     }
   | {
       type: TaskActionsTypes.COMPLETE_TASK;
